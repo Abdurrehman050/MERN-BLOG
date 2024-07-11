@@ -19,7 +19,7 @@ app.post("/api/v1/users/register", async (req, res) => {
   }
 });
 //* GET/api/v1/users/login
-app.get("/api/v1/users/register", async (req, res) => {
+app.get("/api/v1/users/login", async (req, res) => {
   try {
     res.json({
       status: "success",
@@ -79,6 +79,17 @@ app.put("/api/v1/users/update-password/:id", async (req, res) => {
     res.json({
       status: "success",
       user: "User password update",
+    });
+  } catch (error) {
+    res.json(error);
+  }
+});
+//* PUT/api/v1/users/update/:id
+app.put("/api/v1/users/update/:id", async (req, res) => {
+  try {
+    res.json({
+      status: "success",
+      user: "User update",
     });
   } catch (error) {
     res.json(error);
@@ -169,7 +180,7 @@ app.get("/api/v1/comments/:id", async (req, res) => {
   try {
     res.json({
       status: "success",
-      user: "comments details",
+      user: "single comment details",
     });
   } catch (error) {
     res.json(error);
