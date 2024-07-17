@@ -1,9 +1,9 @@
 const mongoose = require("mongoose");
 
-// comment schema
+//comment schema
 const commentSchema = new mongoose.Schema(
   {
-    User: {
+    user: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
       ref: "User",
@@ -13,9 +13,11 @@ const commentSchema = new mongoose.Schema(
       required: true,
     },
   },
-  { timestamps: true }
+  {
+    timestamps: true,
+  }
 );
 
-// compile the schema to form a model
+//compile schema to form a model
 const Comment = mongoose.model("Comment", commentSchema);
 module.exports = Comment;
