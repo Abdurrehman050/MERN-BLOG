@@ -1,4 +1,5 @@
 const express = require("express");
+const multer = require("multer");
 const {
   registerCtrl,
   loginCtrl,
@@ -10,25 +11,40 @@ const {
   updateUserCtrl,
   logoutCtrl,
 } = require("../../controller/users/users");
+const protected = require("../../middleware/protected");
+const storage = require("../../config/cloudinary");
 
 const userRoutes = express.Router();
+
+// instance of multer
+const upload = multer({ storage });
 
 //* POST/api/v1/users/register
 userRoutes.post("/register", registerCtrl);
 //* GET/api/v1/users/login
 userRoutes.get("/login", loginCtrl);
-//* GET/api/v1/users/:id
-userRoutes.get("/:id", userDetailsCtrl);
-//* GET/api/v1/users/profile/:id
-userRoutes.get("/profile/:id", profileCtrl);
+//* GET/api/v1/users/profile
+userRoutes.get("/profile", profileCtrl);
 //* PUT/api/v1/users/profile-photo-upload/:id
-userRoutes.put("/profile-photo-upload/:id", uploadProfilePhotoCtrl);
+userRoutes.put(
+  "/profile-photo-upload/",
+  protected,
+  upload.single("profile"),
+  uploadProfilePhotoCtrl
+);
 //* PUT/api/v1/users/cover-photo-upload/:id
-userRoutes.put("/cover-photo-upload/:id", uploadCoverImgCtrl);
+userRoutes.put(
+  "/cover-photo-upload/",
+  protected,
+  upload.single("profile"),
+  uploadCoverImgCtrl
+);
 //* PUT/api/v1/users/update-password/:id
 userRoutes.put("/update-password/:id", updatePasswordCtrl);
 //* PUT/api/v1/users/update/:id
 userRoutes.put("/update/:id", updateUserCtrl);
+//* GET/api/v1/users/:id
+userRoutes.get("/:id", protected, userDetailsCtrl);
 //* GET/api/v1/users/logout
 userRoutes.get("/logout", logoutCtrl);
 
