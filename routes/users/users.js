@@ -30,6 +30,18 @@ userRoutes.get("/login", (req, res) => {
 userRoutes.get("/register", (req, res) => {
   res.render("users/register");
 });
+// profile template
+userRoutes.get("/profile-page", (req, res) => {
+  res.render("users/profile");
+});
+// upload profile photo
+userRoutes.get("/upload-profile-photo-form", (req, res) => {
+  res.render("users/uploadProfilePhoto");
+});
+// upload cover photo
+userRoutes.get("/upload-cover-photo-form", (req, res) => {
+  res.render("users/uploadCoverPhoto");
+});
 
 //* POST/api/v1/users/register
 userRoutes.post("/register", registerCtrl);
