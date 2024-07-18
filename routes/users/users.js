@@ -19,6 +19,18 @@ const userRoutes = express.Router();
 // instance of multer
 const upload = multer({ storage });
 
+//----------------
+// Rendering forms
+//----------------
+// login from
+userRoutes.get("/login", (req, res) => {
+  res.render("users/login");
+});
+// register form
+userRoutes.get("/register", (req, res) => {
+  res.render("users/register");
+});
+
 //* POST/api/v1/users/register
 userRoutes.post("/register", registerCtrl);
 //* GET/api/v1/users/login
