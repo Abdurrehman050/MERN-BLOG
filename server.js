@@ -17,6 +17,7 @@ app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
 
 app.use(express.json()); // pass incoming data
+app.use(express.urlencoded({ extended: true })); // pass form data
 
 //! session configuration
 app.use(
