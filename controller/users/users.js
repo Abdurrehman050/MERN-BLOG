@@ -9,13 +9,19 @@ const registerCtrl = async (req, res, next) => {
     console.log(req.body);
     // check if the field is empty
     if (!fullname || !email || !password) {
-      return next(appErr("All fields are required"));
+      // return next(appErr("All fields are required"));
+      return res.render("users/register", {
+        error: "All fields are required",
+      });
     }
     //! 1. if user exist (email check)
     const userFound = await User.findOne({ email });
     // throw an error
     if (userFound) {
-      return next(appErr("User Already Exist"));
+      // return next(appErr("User Already Exist"));
+      return res.render("users/register", {
+        error: "User Already Exist",
+      });
     }
     // hash password
     const salt = await bcrypt.genSalt(10);
