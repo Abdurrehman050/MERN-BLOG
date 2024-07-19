@@ -54,7 +54,7 @@ userRoutes.post("/register", registerCtrl);
 //* GET/api/v1/users/login
 userRoutes.post("/login", loginCtrl);
 //* GET/api/v1/users/profile
-userRoutes.get("/profile-page", profileCtrl);
+userRoutes.get("/profile-page", protected, profileCtrl);
 //* PUT/api/v1/users/profile-photo-upload/:id
 userRoutes.put(
   "/profile-photo-upload/",
