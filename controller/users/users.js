@@ -42,27 +42,37 @@ const registerCtrl = async (req, res, next) => {
 const loginCtrl = async (req, res, next) => {
   const { email, password } = req.body;
   if (!email || !password) {
-    return next(appErr("Email and Password fields are required"));
+    //return next(appErr("Email and Password fields are required"));
+    return res.render("users/login", {
+      error: "Email and Password fields are required",
+    });
   }
   try {
     // check if email exist
     const userFound = await User.findOne({ email });
     if (!userFound) {
       // throw an error
-      return next(appErr("Invalid login credentials"));
+      //return next(appErr("Invalid login credentials"));
+      return res.render("users/login", {
+        error: "Invalid login credentials",
+      });
     }
     // verify password
     const isPasswordValid = await bcrypt.compare(password, userFound.password);
     if (!isPasswordValid) {
-      return next(appErr("Invalid login credentials"));
+      //return next(appErr("Invalid login credentials"));
+      return res.render("users/login", {
+        error: "Invalid login credentials",
+      });
     }
     // save user into session
     req.session.userAuth = userFound._id;
-    console.log(req.session);
-    res.json({
-      status: "success",
-      data: userFound,
-    });
+    // res.json({
+    //   status: "success",
+    //   data: userFound,
+    // });
+    // redirect
+    res.redirect("/api/v1/users/profile-page");
   } catch (error) {
     res.json(error);
   }
@@ -91,24 +101,30 @@ const profileCtrl = async (req, res) => {
     const user = await User.findById(userID)
       .populate("posts")
       .populate("comments");
-    res.json({
-      status: "success",
-      data: user,
-    });
+    res.render("users/profile", { user });
   } catch (error) {
     res.json(error);
   }
 };
 // upload profile photo
 const uploadProfilePhotoCtrl = async (req, res, next) => {
-  console.log(req.file.path);
   try {
+    // check if file exist
+    if (!req.file) {
+      // return next(appErr("User not found", 404));
+      return res.render("users/uploadProfilePhoto", {
+        error: "please upload image",
+      });
+    }
     // 1. find the user to be updated
     const userId = req.session.userAuth;
     const userFound = await User.findById(userId);
     // 2. check if user is found
     if (!userFound) {
-      return next(appErr("User not found", 404));
+      //return next(appErr("User not found", 404));
+      return res.render("users/uploadProfilePhoto", {
+        error: "User not found",
+      });
     }
     // 3. update profile photo
     await User.findByIdAndUpdate(
@@ -120,12 +136,17 @@ const uploadProfilePhotoCtrl = async (req, res, next) => {
         new: true,
       }
     );
-    res.json({
-      status: "success",
-      data: "You have successfully updated your profile photo",
-    });
+    // res.json({
+    //   status: "success",
+    //   data: "You have successfully updated your profile photo",
+    // });
+    // redirect
+    res.redirect("/api/v1/users/profile-page");
   } catch (error) {
-    return next(appErr(error.message));
+    //return next(appErr(error.message));
+    return res.render("users/uploadProfilePhoto", {
+      error: error.message,
+    });
   }
 };
 // upload cover image
@@ -215,14 +236,10 @@ const updateUserCtrl = async (req, res, next) => {
 };
 // logout
 const logoutCtrl = async (req, res) => {
-  try {
-    res.json({
-      status: "success",
-      user: "User logged out successfully",
-    });
-  } catch (error) {
-    res.json(error);
-  }
+  // destroy session
+  req.session.destroy(() => {
+    res.redirect("/api/v1/users/login");
+  });
 };
 
 module.exports = {

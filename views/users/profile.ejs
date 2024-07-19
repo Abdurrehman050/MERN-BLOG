@@ -9,6 +9,10 @@
       src="https://kit.fontawesome.com/42a182743f.js"
       crossorigin="anonymous"
     ></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
     <!-- CSS -->
     <link rel="stylesheet" href="/css/profile.css" />
     <link rel="stylesheet" href="/css/style.css" />
@@ -25,48 +29,38 @@
       >
         <div class="icons-container">
           <p>
-            <i class="fas fa-user"></i>
+            <i class="fa fa-camera upload-btn"></i>
           </p>
           <p>
-            <i class="fas fa-envelope"></i>
-          </p>
-          <p>
-            <i class="fas fa-lock"></i>
-          </p>
-          <p>
-            <i class="fas fa-sign-out-alt"></i>
+            <i class="fa fa-edit"></i>
           </p>
         </div>
         <!-- upload cover image icon -->
-        <i class="fas fa-camera upload-btn"></i>
       </header>
 
       <!-- profile image -->
       <div class="profile-img">
-        <img
-          src="https://cdn.pixabay.com/photo/2022/09/26/04/24/swan-7479623_1280.jpg"
-          alt="profile image"
-        />
+        <img src="<%=user?.profileImage%>" alt="profile image" />
         <!-- upload profile image icon -->
         <a href="/api/v1/users/upload-profile-photo-form">
-          <i class="fas fa-camera upload-btn"></i>
+          <i class="fa fa-camera upload-btn"></i>
         </a>
       </div>
       <!-- personal details -->
       <div class="personal-container">
         <div class="details-wrapper">
           <div class="details">
-            <i class="fas fa-user"></i>
-            <p>Name: John Doe</p>
+            <i class="fa fa-user"></i>
+            <p>Name: <%=user?.fullname%></p>
           </div>
           <div class="details">
-            <i class="fas fa-envelope"></i>
-            <p>Email: John Doe</p>
+            <i class="fa fa-envelope"></i>
+            <p>Email: <%=user?.email%></p>
           </div>
           <!-- date joined -->
           <div class="details">
-            <i class="fas fa-calendar"></i>
-            <p>Date Joined: John Doe</p>
+            <i class="fa fa-calendar"></i>
+            <p>Date Joined: <%=user?.createdAt.toLocaleDateString()%></p>
           </div>
         </div>
       </div>
