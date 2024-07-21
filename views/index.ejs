@@ -9,6 +9,10 @@
       src="https://kit.fontawesome.com/42a182743f.js"
       crossorigin="anonymous"
     ></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
     <!-- Google font -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -21,7 +25,7 @@
   </head>
   <body>
     <!-- nav -->
-    <%-include('partials/navbar.ejs') %>
+    <%- include('partials/navbar.ejs') %>
     <!-- header -->
     <header>
       <div class="header-content">
@@ -51,85 +55,36 @@
 
     <!-- content -->
     <section class="container-flex">
+      <% if (posts && posts.length <= 0) { %>
+      <h2>No Post Found</h2>
+      <% } else if (posts) { %> <% posts.forEach((post) => { %>
       <article class="post-content">
-        <img src="./images/post3.jpg" alt="" class="post-image" />
+        <img src="<%= post.image %>" alt="" class="post-image" />
         <p class="post-info">
           <span class="post-author">
-            <i class="fas fa-user"></i>
-            <a href="#">John Doe</a>
+            <i class="fa fa-user"></i>
+            <a href="#"><%= post.user.fullname %></a>
           </span>
           <span class="post-date">
             <i class="far fa-calendar-alt"></i>
-            <time datetime="2020-01-01">January 1, 2020</time>
+            <time datetime="2020-01-01">
+              <%= post.createdAt.toLocaleString() %>
+            </time>
           </span>
         </p>
-        <h1 class="post-title">Become a Web Developer</h1>
-        <p class="post-body">
-          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Officia
-          itaque inventore culpa placeat! Cum nam optio, labore, voluptas sunt
-          quam rem cupiditate laboriosam amet reiciendis velit doloribus eum!
-          Repudiandae, odio?
-        </p>
+        <h1 class="post-title"><%= post.title %></h1>
+        <p class="post-body"><%= post.description %></p>
         <!-- category -->
         <div class="post-category">
-          <span>Category:</span>
+          <span>Category: <%= post.category %></span>
         </div>
         <a href="/" class="post-read-more">Continue Reading...</a>
       </article>
-
-      <article class="post-content">
-        <img src="./images/post7.jpg" alt="" class="post-image" />
-        <p class="post-info">
-          <span class="post-author">
-            <i class="fas fa-user"></i>
-            <a href="#">John Doe</a>
-          </span>
-          <span class="post-date">
-            <i class="far fa-calendar-alt"></i>
-            <time datetime="2020-01-01">January 1, 2020</time>
-          </span>
-        </p>
-        <h1 class="post-title">How to Take care of Cat</h1>
-        <p class="post-body">
-          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Officia
-          itaque inventore culpa placeat! Cum nam optio, labore, voluptas sunt
-          quam rem cupiditate laboriosam amet reiciendis velit doloribus eum!
-          Repudiandae, odio?
-        </p>
-        <!-- category -->
-        <div class="post-category">
-          <span>Category:</span>
-        </div>
-        <a href="/" class="post-read-more">Continue Reading...</a>
-      </article>
-
-      <article class="post-content">
-        <img src="./images/post7.jpg" alt="" class="post-image" />
-        <p class="post-info">
-          <span class="post-author">
-            <i class="fas fa-user"></i>
-            <a href="#">John Doe</a>
-          </span>
-          <span class="post-date">
-            <i class="far fa-calendar-alt"></i>
-            <time datetime="2020-01-01">January 1, 2020</time>
-          </span>
-        </p>
-        <h1 class="post-title">How to Take care of Cat</h1>
-        <p class="post-body">
-          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Officia
-          itaque inventore culpa placeat! Cum nam optio, labore, voluptas sunt
-          quam rem cupiditate laboriosam amet reiciendis velit doloribus eum!
-          Repudiandae, odio?
-        </p>
-        <!-- category -->
-        <div class="post-category">
-          <span>Category:</span>
-        </div>
-        <a href="/" class="post-read-more">Continue Reading...</a>
-      </article>
+      <% }) %> <% } else { %>
+      <h2>Error loading posts</h2>
+      <% } %>
     </section>
     <!-- footer -->
-    <%-include('partials/footer.ejs') %>
+    <%- include('partials/footer.ejs') %>
   </body>
 </html>

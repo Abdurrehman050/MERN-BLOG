@@ -7,6 +7,7 @@ const userRoutes = require("./routes/users/users");
 const postRoutes = require("./routes/posts/posts");
 const commentRoutes = require("./routes/comments/comments");
 const globalErrHandler = require("./middleware/globalHandler");
+const Post = require("./model/post/Post");
 require("./config/dbConnect");
 
 const app = express();
@@ -48,8 +49,14 @@ app.use((req, res, next) => {
 
 // render routes
 // render home
-app.get("/", (req, res) => {
-  res.render("index");
+app.get("/", async (req, res) => {
+  //res.render("index");
+  try {
+    const posts = await Post.find();
+    res.render("index", { posts });
+  } catch (error) {
+    res.render("index", { error: error.message });
+  }
 });
 
 //! -----------routes-------------
