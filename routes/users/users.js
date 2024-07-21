@@ -42,11 +42,15 @@ userRoutes.get("/upload-profile-photo-form", (req, res) => {
 });
 // upload cover photo
 userRoutes.get("/upload-cover-photo-form", (req, res) => {
-  res.render("users/uploadCoverPhoto");
+  res.render("users/uploadCoverPhoto", {
+    error: "",
+  });
 });
-// update user form
-userRoutes.get("/update-user-form", (req, res) => {
-  res.render("users/updateUser");
+// update user password
+userRoutes.get("/update-user-password", (req, res) => {
+  res.render("users/updatePassword", {
+    error: "",
+  });
 });
 
 //* POST/api/v1/users/register
@@ -70,9 +74,9 @@ userRoutes.put(
   uploadCoverImgCtrl
 );
 //* PUT/api/v1/users/update-password/:id
-userRoutes.put("/update-password/:id", updatePasswordCtrl);
+userRoutes.put("/update-password/", updatePasswordCtrl);
 //* PUT/api/v1/users/update/:id
-userRoutes.put("/update/:id", updateUserCtrl);
+userRoutes.put("/update", updateUserCtrl); // this is because we have made changes in controller
 //* GET/api/v1/users/logout
 userRoutes.get("/logout", logoutCtrl);
 //* GET/api/v1/users/:id
