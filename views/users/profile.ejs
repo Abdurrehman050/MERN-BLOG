@@ -78,31 +78,35 @@
 
     <!-- content -->
     <section class="container-flex">
-      <%if(user?.posts?.length <=0){%>
+      <% if (user?.posts?.length <= 0) { %>
       <h1>You have no posts</h1>
-      <%}else{%> <%user?.posts.forEach((post)=>{%>
+      <% } else { %> <% user.posts.forEach((post) => { %>
       <article class="post-content">
-        <img src="<%=post?.image%>" alt="" class="post-image" />
+        <img src="<%= post.image %>" alt="" class="post-image" />
         <p class="post-info">
           <span class="post-author">
             <i class="fa fa-user"></i>
-            <a href="#">John Doe</a>
+            <a href="#"><%= user.fullname %></a>
           </span>
           <span class="post-date">
             <i class="fa fa-calendar-alt"></i>
-            <time datetime="2020-01-01"><%=post?.createdAt%></time>
+            <time datetime="2020-01-01">
+              <%= post.createdAt.toLocaleDateString() %>
+            </time>
           </span>
         </p>
-        <h1 class="post-title"><%=post?.title%></h1>
-        <p class="post-body"><%=post?.description%></p>
-        <!-- category -->
+        <h1 class="post-title"><%= post.title %></h1>
+        <p class="post-body"><%= truncatePost(post.description) %></p>
         <div class="post-category">
-          <span>Category:</span>
+          <span>Category: <%= post.category %></span>
         </div>
-        <a href="/" class="post-read-more">Continue Reading...</a>
+        <a href="/api/v1/posts/<%= post._id %>" class="post-read-more"
+          >Continue Reading...</a
+        >
       </article>
-      <%})%> <%}%>
+      <% }) %> <% } %>
     </section>
+
     <!-- footer -->
     <!-- footer -->
     <%-include('../partials/footer.ejs') %>

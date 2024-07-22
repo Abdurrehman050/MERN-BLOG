@@ -1,12 +1,13 @@
 const mongoose = require("mongoose");
 
-// title, desc, category, image
+//title, desc, category, image
 const postSchema = new mongoose.Schema(
   {
     title: {
       type: String,
       required: true,
     },
+
     description: {
       type: String,
       required: true,
@@ -18,16 +19,28 @@ const postSchema = new mongoose.Schema(
     },
     image: {
       type: String,
-      // required: true,
+      required: true,
     },
-    user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
-    comments: [{ type: mongoose.Schema.Types.ObjectId, ref: "Comment" }],
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
+    comments: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Comment",
+      },
+    ],
   },
-  { timestamps: true }
+  {
+    timestamps: true,
+  }
 );
 
-// compile the schema to form a model
+//compile schema to form model
+
 const Post = mongoose.model("Post", postSchema);
 
-// export model
+//export model
 module.exports = Post;

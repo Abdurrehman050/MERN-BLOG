@@ -9,11 +9,29 @@ const {
 } = require("../../controller/posts/posts");
 const protected = require("../../middleware/protected");
 const storage = require("../../config/cloudinary");
+const Post = require("../../model/post/Post");
 
 const postRoutes = express.Router();
 // instance of multer
 const upload = multer({
   storage,
+});
+
+// forms
+
+postRoutes.get("/get-post-form", (req, res) => {
+  res.render("posts/addPost", {
+    error: "",
+  });
+});
+
+postRoutes.get("/get-form-update/:id", async (req, res) => {
+  try {
+    const post = await Post.findById(req.params.id);
+    res.render("posts/updatePost", { post, error: "" });
+  } catch (error) {
+    res.render("posts/updatePost", { error, post: "" });
+  }
 });
 
 //* POST/api/v1/posts

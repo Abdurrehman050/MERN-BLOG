@@ -99,19 +99,45 @@ const userDetailsCtrl = async (req, res) => {
   }
 };
 //profile
-const profileCtrl = async (req, res) => {
+// const profileCtrl = async (req, res) => {
+//   try {
+//     // get the login user
+//     const userID = req.session.userAuth;
+//     // find the user
+//     //const posts = await Post.find(userID);
+//     const user = await User.findById(userID)
+//       .populate("posts")
+//       .populate("comments");
+//     res.render("users/profile", { user });
+//   } catch (error) {
+//     res.json(error);
+//   }
+// };
+const profileCtrl = async (req, res, next) => {
   try {
-    // get the login user
-    const userID = req.session.userAuth;
-    // find the user
-    const user = await User.findById(userID)
-      .populate("posts")
-      .populate("comments");
-    res.render("users/profile", { user });
+    const userId = req.session.userAuth;
+    const user = await User.findById(userId).populate({
+      path: "posts",
+      populate: {
+        path: "user",
+        select: "fullname", // Include user details if needed
+      },
+    });
+
+    if (!user) {
+      return res.render("users/profile", {
+        error: "User not found",
+      });
+    }
+
+    res.render("users/profile", {
+      user,
+    });
   } catch (error) {
-    res.json(error);
+    return next(appErr(error.message));
   }
 };
+
 // upload profile photo
 const uploadProfilePhotoCtrl = async (req, res, next) => {
   try {

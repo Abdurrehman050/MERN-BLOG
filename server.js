@@ -8,9 +8,13 @@ const postRoutes = require("./routes/posts/posts");
 const commentRoutes = require("./routes/comments/comments");
 const globalErrHandler = require("./middleware/globalHandler");
 const Post = require("./model/post/Post");
+const { truncatePost } = require("./utils/helpers");
 require("./config/dbConnect");
 
 const app = express();
+
+// helpers
+app.locals.truncatePost = truncatePost;
 
 //! middleware
 //! Configure ejs
@@ -52,7 +56,7 @@ app.use((req, res, next) => {
 app.get("/", async (req, res) => {
   //res.render("index");
   try {
-    const posts = await Post.find();
+    const posts = await Post.find().populate("user");
     res.render("index", { posts });
   } catch (error) {
     res.render("index", { error: error.message });
