@@ -197,6 +197,7 @@ aside {
   border-radius: 5px;
   box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.1);
   background: #fff;
+  width: 100%;
 }
 .comment-info {
   color: gray;
@@ -220,6 +221,12 @@ aside {
   text-decoration: none;
   color: #ff5a5f;
   margin-right: 10px;
+}
+.comment-actions button {
+  text-decoration: none;
+  color: #ff5a5f;
+  margin-right: 10px;
+  font-size: 20px;
 }
 
 /* Mobile first responsive design */

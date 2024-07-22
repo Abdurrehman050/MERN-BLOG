@@ -88,7 +88,12 @@ const fetchPostCtrl = async (req, res, next) => {
     const id = req.params.id;
     //const id = req.session.userAuth;
     // find the post
-    const post = await Post.findById(id).populate("comments");
+    const post = await Post.findById(id).populate({
+      path: "comments",
+      populate: {
+        path: "user",
+      },
+    });
     res.render("posts/postDetails", {
       post,
       error: "",
